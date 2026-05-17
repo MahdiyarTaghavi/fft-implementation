@@ -119,22 +119,6 @@ class DFT:
 
         return x / N
 
-    def magnitude_spectrum(self, signal: np.ndarray) -> np.ndarray:
-        """
-        Compute the magnitude of each frequency bin.
-
-        Parameters
-        ----------
-        signal : np.ndarray
-            Input signal as a 1D array.
-
-        Returns
-        -------
-        np.ndarray
-            Real-valued array of magnitudes, one per frequency bin.
-        """
-        return np.abs(self.forward(signal))
-
     def _verify(self, signal: np.ndarray, result: np.ndarray) -> None:
         """
         Verify DFT output against numpy's reference implementation.

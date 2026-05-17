@@ -84,22 +84,6 @@ class FFT:
         result = self._fft_recursive(conjugated)
         return np.conj(result) / N
 
-    def magnitude_spectrum(self, signal: np.ndarray) -> np.ndarray:
-        """
-        Compute the magnitude of each frequency bin.
-
-        Parameters
-        ----------
-        signal : np.ndarray
-            Input signal as a 1D array.
-
-        Returns
-        -------
-        np.ndarray
-            Real-valued array of magnitudes, one per frequency bin.
-        """
-        return np.abs(self.forward(signal))
-
     def _fft_recursive(self, signal: np.ndarray) -> np.ndarray:
         """
         Core recursive Cooley-Tukey FFT implementation.
