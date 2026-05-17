@@ -7,10 +7,6 @@ naive O(N²) brute-force algorithm to an optimized O(N log N) Cooley-Tukey
 recursive implementation, then applies the result to real signal filtering
 and image frequency analysis.
 
-This project demonstrates **scientific Python programming** at an algorithmic
-level: complex algorithms implemented from scratch, mathematically verified,
-benchmarked empirically, and applied to a real computer vision domain problem.
-
 ---
 
 ## Algorithmic Scope
