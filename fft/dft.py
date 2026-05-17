@@ -36,13 +36,9 @@ class DFT:
             X[k] represents the magnitude and phase of frequency bin k.
         """
         if signal.ndim != 1:
-            raise ValueError(
-                f"Signal must be a 1D array, got shape {signal.shape}."
-            )
+            raise ValueError(f"Signal must be a 1D array, got shape {signal.shape}.")
         if len(signal) == 0:
-            raise ValueError(
-                "Signal must not be empty."
-            )
+            raise ValueError("Signal must not be empty.")
 
         N = len(signal)
         X = np.zeros(N, dtype=complex)
@@ -75,13 +71,9 @@ class DFT:
             Complex frequency spectrum identical to forward().
         """
         if signal.ndim != 1:
-            raise ValueError(
-                f"Signal must be a 1D array, got shape {signal.shape}."
-            )
+            raise ValueError(f"Signal must be a 1D array, got shape {signal.shape}.")
         if len(signal) == 0:
-            raise ValueError(
-                "Signal must not be empty."
-            )
+            raise ValueError("Signal must not be empty.")
 
         N = len(signal)
         n = np.arange(N)
@@ -135,5 +127,6 @@ class DFT:
         AssertionError
             If the result deviates from numpy's FFT beyond numerical tolerance.
         """
-        assert np.allclose(result, np.fft.fft(signal), atol=1e-10), \
-            "DFT output does not match numpy.fft.fft — implementation error."
+        assert np.allclose(
+            result, np.fft.fft(signal), atol=1e-10
+        ), "DFT output does not match numpy.fft.fft — implementation error."

@@ -206,14 +206,30 @@ class BenchmarkPlotter:
 
         fig, ax = plt.subplots(figsize=(10, 6))
 
-        ax.loglog(sizes[valid], dft_times[valid], "o-",
-                  label="DFT naive O(N²)", color="crimson")
-        ax.loglog(sizes[valid], dft_vec_times[valid], "s-",
-                  label="DFT vectorized O(N²)", color="orange")
-        ax.loglog(sizes, fft_times, "^-",
-                  label="FFT Cooley-Tukey O(N log N)", color="steelblue")
-        ax.loglog(sizes, numpy_times, "D-",
-                  label="numpy.fft.fft (reference)", color="green")
+        ax.loglog(
+            sizes[valid],
+            dft_times[valid],
+            "o-",
+            label="DFT naive O(N²)",
+            color="crimson",
+        )
+        ax.loglog(
+            sizes[valid],
+            dft_vec_times[valid],
+            "s-",
+            label="DFT vectorized O(N²)",
+            color="orange",
+        )
+        ax.loglog(
+            sizes,
+            fft_times,
+            "^-",
+            label="FFT Cooley-Tukey O(N log N)",
+            color="steelblue",
+        )
+        ax.loglog(
+            sizes, numpy_times, "D-", label="numpy.fft.fft (reference)", color="green"
+        )
 
         ax.set_title("DFT vs FFT — Timing Comparison (log-log scale)", fontsize=14)
         ax.set_xlabel("Signal length (N)")

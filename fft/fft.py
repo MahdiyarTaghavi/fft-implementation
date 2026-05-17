@@ -46,13 +46,9 @@ class FFT:
                 If signal is empty or not a 1D array.
         """
         if signal.ndim != 1:
-            raise ValueError(
-                f"Signal must be a 1D array, got shape {signal.shape}."
-            )
+            raise ValueError(f"Signal must be a 1D array, got shape {signal.shape}.")
         if len(signal) == 0:
-            raise ValueError(
-                "Signal must not be empty."
-            )
+            raise ValueError("Signal must not be empty.")
 
         signal = self._pad_to_power_of_2(signal)
         result = self._fft_recursive(signal.astype(complex))
@@ -142,8 +138,10 @@ class FFT:
             return signal  # already a power of 2
 
         next_pow2 = 2 ** int(np.ceil(np.log2(N)))
-        print(f"Warning: signal length {N} is not a power of 2. "
-              f"Zero-padding to {next_pow2}.")
+        print(
+            f"Warning: signal length {N} is not a power of 2. "
+            f"Zero-padding to {next_pow2}."
+        )
         padded = np.zeros(next_pow2, dtype=complex)
         padded[:N] = signal
         return padded
@@ -164,5 +162,6 @@ class FFT:
         AssertionError
             If result deviates from numpy.fft.fft beyond numerical tolerance.
         """
-        assert np.allclose(result, np.fft.fft(signal), atol=1e-10), \
-            "FFT output does not match numpy.fft.fft — implementation error."
+        assert np.allclose(
+            result, np.fft.fft(signal), atol=1e-10
+        ), "FFT output does not match numpy.fft.fft — implementation error."

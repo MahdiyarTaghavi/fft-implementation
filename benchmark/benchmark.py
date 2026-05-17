@@ -43,7 +43,9 @@ class Benchmark:
             "numpy_times": np.zeros(len(self.sizes)),
         }
 
-    def _time_function(self, fn: Callable, signal: np.ndarray, repeats: int = 5) -> float:
+    def _time_function(
+        self, fn: Callable, signal: np.ndarray, repeats: int = 5
+    ) -> float:
         """
         Measure average execution time of a function over multiple runs.
 
@@ -86,7 +88,9 @@ class Benchmark:
             Dictionary containing sizes and timing arrays for each
             implementation.
         """
-        print(f"{'Size':<10} {'DFT (s)':<15} {'DFT Vec (s)':<15} {'FFT (s)':<15} {'NumPy (s)':<15}")
+        print(
+            f"{'Size':<10} {'DFT (s)':<15} {'DFT Vec (s)':<15} {'FFT (s)':<15} {'NumPy (s)':<15}"
+        )
         print("─" * 70)
 
         for i, N in enumerate(self.sizes):
@@ -102,7 +106,6 @@ class Benchmark:
                 dft_time = float("nan")
                 dft_vec_time = float("nan")
 
-
             fft_time = self._time_function(self.fft.forward, signal)
             numpy_time = self._time_function(np.fft.fft, signal)
 
@@ -112,8 +115,12 @@ class Benchmark:
             self.results["numpy_times"][i] = numpy_time
 
             dft_display = f"{dft_time:.6f}" if not np.isnan(dft_time) else "skipped"
-            dft_vec_display = f"{dft_vec_time:.6f}" if not np.isnan(dft_vec_time) else "skipped"
-            print(f"{N:<10} {dft_display:<15} {dft_vec_display:<15} {fft_time:<15.6f} {numpy_time:<15.6f}")
+            dft_vec_display = (
+                f"{dft_vec_time:.6f}" if not np.isnan(dft_vec_time) else "skipped"
+            )
+            print(
+                f"{N:<10} {dft_display:<15} {dft_vec_display:<15} {fft_time:<15.6f} {numpy_time:<15.6f}"
+            )
 
         return self.results
 
@@ -138,12 +145,15 @@ class Benchmark:
         dft_vec_result = self.dft.forward_vectorized(signal)
 
         # Verify forward results match numpy
-        assert np.allclose(dft_result, expected, atol=1e-10), \
-            "DFT forward result does not match numpy.fft.fft"
-        assert np.allclose(fft_result, expected, atol=1e-10), \
-            "FFT forward result does not match numpy.fft.fft"
-        assert np.allclose(dft_vec_result, expected, atol=1e-10), \
-            "DFT vectorized result does not match numpy.fft.fft"
+        assert np.allclose(
+            dft_result, expected, atol=1e-10
+        ), "DFT forward result does not match numpy.fft.fft"
+        assert np.allclose(
+            fft_result, expected, atol=1e-10
+        ), "FFT forward result does not match numpy.fft.fft"
+        assert np.allclose(
+            dft_vec_result, expected, atol=1e-10
+        ), "DFT vectorized result does not match numpy.fft.fft"
         print("✓ Forward — DFT, vectorized DFT, and FFT match numpy.fft.fft")
 
         # Verify inverse reconstructs the original signal
@@ -151,16 +161,19 @@ class Benchmark:
         fft_reconstructed = np.real(self.fft.inverse(fft_result))
         dft_vec_reconstructed = np.real(self.dft.inverse(dft_vec_result))
 
-        assert np.allclose(dft_reconstructed, signal, atol=1e-10), \
-            "DFT inverse did not reconstruct the original signal"
-        assert np.allclose(fft_reconstructed, signal, atol=1e-10), \
-            "FFT inverse did not reconstruct the original signal"
+        assert np.allclose(
+            dft_reconstructed, signal, atol=1e-10
+        ), "DFT inverse did not reconstruct the original signal"
+        assert np.allclose(
+            fft_reconstructed, signal, atol=1e-10
+        ), "FFT inverse did not reconstruct the original signal"
         assert np.allclose(
             np.real(dft_vec_reconstructed), signal, atol=1e-10
         ), "DFT vectorized inverse did not reconstruct original signal"
         print("✓ Inverse — both implementations reconstruct original signal")
 
         # Verify DFT and FFT inverses match each other
-        assert np.allclose(dft_reconstructed, fft_reconstructed, dft_vec_reconstructed, atol=1e-10), \
-            "DFT and FFT inverse results do not match each other"
+        assert np.allclose(
+            dft_reconstructed, fft_reconstructed, dft_vec_reconstructed, atol=1e-10
+        ), "DFT and FFT inverse results do not match each other"
         print("✓ Consistency — DFT and FFT inverses produce identical results")

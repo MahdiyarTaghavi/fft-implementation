@@ -58,16 +58,15 @@ class ImageAnalyzer:
             # Convert RGB to grayscale using luminance weights
             # Human eye is most sensitive to green, least to blue
             grayscale = (
-                0.2989 * image[:, :, 0] +
-                0.5870 * image[:, :, 1] +
-                0.1140 * image[:, :, 2]
+                0.2989 * image[:, :, 0]
+                + 0.5870 * image[:, :, 1]
+                + 0.1140 * image[:, :, 2]
             )
         elif image.ndim == 2:
             grayscale = image
         else:
             raise ValueError(
-                f"Unexpected image shape: {image.shape}. "
-                "Expected 2D or 3D array."
+                f"Unexpected image shape: {image.shape}. " "Expected 2D or 3D array."
             )
 
         # Normalize to [0, 255] if float image
@@ -138,9 +137,7 @@ class ImageAnalyzer:
         """
         return np.log1p(np.abs(spectrum))
 
-    def low_pass_filter_2d(
-        self, spectrum: np.ndarray, radius: int
-    ) -> np.ndarray:
+    def low_pass_filter_2d(self, spectrum: np.ndarray, radius: int) -> np.ndarray:
         """
         Apply a circular low-pass filter to a 2D spectrum.
 
@@ -167,8 +164,7 @@ class ImageAnalyzer:
         # Build circular mask — True inside circle, False outside
         row_indices, col_indices = np.ogrid[:rows, :cols]
         distance = np.sqrt(
-            (row_indices - center_row) ** 2 +
-            (col_indices - center_col) ** 2
+            (row_indices - center_row) ** 2 + (col_indices - center_col) ** 2
         )
         mask = distance <= radius
 
@@ -176,9 +172,7 @@ class ImageAnalyzer:
         filtered[~mask] = 0
         return filtered
 
-    def high_pass_filter_2d(
-        self, spectrum: np.ndarray, radius: int
-    ) -> np.ndarray:
+    def high_pass_filter_2d(self, spectrum: np.ndarray, radius: int) -> np.ndarray:
         """
         Apply a circular high-pass filter to a 2D spectrum.
 
@@ -204,8 +198,7 @@ class ImageAnalyzer:
 
         row_indices, col_indices = np.ogrid[:rows, :cols]
         distance = np.sqrt(
-            (row_indices - center_row) ** 2 +
-            (col_indices - center_col) ** 2
+            (row_indices - center_row) ** 2 + (col_indices - center_col) ** 2
         )
         mask = distance <= radius
 

@@ -52,10 +52,10 @@ def generate_composite_signal(
     rng = np.random.default_rng(seed=seed)
     t = np.linspace(0, 1, n)
     signal = (
-        np.sin(2 * np.pi * 5 * t) +    # 5 Hz — low frequency
-        np.sin(2 * np.pi * 50 * t) +   # 50 Hz — mid frequency
-        np.sin(2 * np.pi * 120 * t) +  # 120 Hz — high frequency
-        rng.normal(0, 0.2, n)           # random noise
+        np.sin(2 * np.pi * 5 * t)  # 5 Hz — low frequency
+        + np.sin(2 * np.pi * 50 * t)  # 50 Hz — mid frequency
+        + np.sin(2 * np.pi * 120 * t)  # 120 Hz — high frequency
+        + rng.normal(0, 0.2, n)  # random noise
     )
     return t, signal
 
@@ -93,27 +93,30 @@ def run_signal_analysis() -> None:
 
     # Plot original signal
     plotter.plot_signal(
-        signal, "Composite Signal (5Hz + 50Hz + 120Hz + noise)",
-        "original_signal", SAMPLE_RATE
+        signal,
+        "Composite Signal (5Hz + 50Hz + 120Hz + noise)",
+        "original_signal",
+        SAMPLE_RATE,
     )
 
     # Forward FFT
     spectrum = fft.forward(signal)
 
     # Plot spectrum
-    plotter.plot_spectrum(
-        spectrum, "Frequency Spectrum", "spectrum", SAMPLE_RATE
-    )
+    plotter.plot_spectrum(spectrum, "Frequency Spectrum", "spectrum", SAMPLE_RATE)
 
     # Low pass filter — keep only low frequencies
     lp_spectrum, lp_filtered_spectrum, lp_signal = pipeline.run(
         signal, LowPassFilter(), cutoff=20
     )
     plotter.plot_filter_comparison(
-        signal, lp_signal,
-        lp_spectrum, lp_filtered_spectrum,
+        signal,
+        lp_signal,
+        lp_spectrum,
+        lp_filtered_spectrum,
         "Low-Pass Filter (cutoff=20) — removes high frequencies",
-        "low_pass_comparison", SAMPLE_RATE
+        "low_pass_comparison",
+        SAMPLE_RATE,
     )
     print("✓ Low-pass filter applied")
 
@@ -122,10 +125,13 @@ def run_signal_analysis() -> None:
         signal, HighPassFilter(), cutoff=80
     )
     plotter.plot_filter_comparison(
-        signal, hp_signal,
-        hp_spectrum, hp_filtered_spectrum,
+        signal,
+        hp_signal,
+        hp_spectrum,
+        hp_filtered_spectrum,
         "High-Pass Filter (cutoff=80) — removes low frequencies",
-        "high_pass_comparison", SAMPLE_RATE
+        "high_pass_comparison",
+        SAMPLE_RATE,
     )
     print("✓ High-pass filter applied")
 
