@@ -210,12 +210,7 @@ Or using pip directly:
 pip install -r requirements.txt
 ```
 
-### 3. Add a test image (optional)
-
-Place any image named `test_image.png` in the project root for
-image frequency analysis. If omitted, that phase is skipped gracefully.
-
-### 4. Run the full pipeline
+### 3. Run the full pipeline
 
 ```bash
 python main.py
