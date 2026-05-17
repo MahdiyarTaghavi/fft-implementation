@@ -35,6 +35,15 @@ class DFT:
             Complex array of length N containing the frequency spectrum.
             X[k] represents the magnitude and phase of frequency bin k.
         """
+        if signal.ndim != 1:
+            raise ValueError(
+                f"Signal must be a 1D array, got shape {signal.shape}."
+            )
+        if len(signal) == 0:
+            raise ValueError(
+                "Signal must not be empty."
+            )
+
         N = len(signal)
         X = np.zeros(N, dtype=complex)
 
@@ -44,6 +53,44 @@ class DFT:
 
         self._verify(signal, X)
         return X
+
+    def forward_vectorized(self, signal: np.ndarray) -> np.ndarray:
+        """
+        Compute DFT using vectorized numpy operations instead of Python loops.
+
+        Achieves the same O(N²) complexity as forward() but runs significantly
+        faster by replacing nested Python loops with numpy matrix multiplication.
+
+        Constructs an N×N matrix W where W[k,n] = e^(-2πi × k × n / N),
+        then computes X = W @ x in a single numpy operation.
+
+        Parameters
+        ----------
+        signal : np.ndarray
+            Input signal as a 1D array of real or complex values.
+
+        Returns
+        -------
+        np.ndarray
+            Complex frequency spectrum identical to forward().
+        """
+        if signal.ndim != 1:
+            raise ValueError(
+                f"Signal must be a 1D array, got shape {signal.shape}."
+            )
+        if len(signal) == 0:
+            raise ValueError(
+                "Signal must not be empty."
+            )
+
+        N = len(signal)
+        n = np.arange(N)
+        k = np.arange(N).reshape(N, 1)  # column vector — shape (N, 1)
+        W = np.exp(-2j * np.pi * k * n / N)  # N×N twiddle factor matrix
+        result = W @ signal.astype(complex)  # matrix multiplication — shape (N,)
+
+        self._verify(signal, result)
+        return result
 
     def inverse(self, spectrum: np.ndarray) -> np.ndarray:
         """
